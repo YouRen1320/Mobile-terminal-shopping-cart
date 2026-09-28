@@ -1,85 +1,78 @@
 # Vue3 移动端购物车项目
 
 > [!IMPORTANT]
-> **历史学习项目，已停止维护。** 本仓库没有可用后端，登录、注册、头像上传及服务器数据交互均未完成。较新的配套练习请查看 [商城前端](https://github.com/YouRen1320/shopping_cart_frontEnd) 与 [商城后端](https://github.com/YouRen1320/shopping_cart_afterEnd)。代码和提交历史继续保留。
+> **历史学习项目，已停止维护。** 本仓库只包含前端，不包含后端；接口指向 `http://localhost:3001/api/` 占位地址，仓库中也没有可用的服务端实现。因此首页商品列表、商品详情、购物车增删改查、登录注册、头像上传等依赖接口的功能在当前状态下均无法真实使用。较新的配套练习请查看 [商城前端](https://github.com/YouRen1320/shopping_cart_frontEnd) 与 [商城后端](https://github.com/YouRen1320/shopping_cart_afterEnd)。代码和提交历史继续保留，供学习参考。
 
 ## 项目介绍
 
-  该项目是一个基于 **Vite** 和 **Vue 3** 创建的移动端网页购物车应用，提供了常见的电商功能，包括商品列表展示、商品详情查看、购物车的增删改查（CRUD）、用户注册和登录、头像上传等功能。
+基于 Vite 与 Vue 3 创建的移动端网页购物车应用练习，包含电商常见页面的前端实现：首页商品列表、商品详情、购物车、个人中心、设置、登录与注册。
 
-### 主要功能：
+## 已实现 / 未实现
 
-- 商品列表展示与浏览
-- 商品详情页面
-- 购物车增删改查（商品添加、删除、数量调整）
-- 用户注册与登录
-- 头像上传功能
+**已实现（前端代码层面）：**
+
+- 页面结构与路由：底部标签导航（首页 / 购物车 / 我的）、二级页面与登录守卫标记
+- 请求封装：axios 实例与请求 / 响应拦截器，错误统一走 Vant 通知
+- 各页面的界面代码与交互逻辑（商品列表加载、购物车操作、登录 / 注册表单、头像上传界面）
+- 登录态标记：`localStorage` 中记录 `utoken` 与 `userid` 并随请求携带
+
+**未实现 / 不可用：**
+
+- 后端服务：仓库不含任何服务端代码，`localhost:3001` 仅为开发时的占位地址
+- 因此所有数据功能（商品列表、详情、购物车数据、登录注册、头像上传）在无后端时都无法真实工作，页面表现为接口报错
+- 自动化测试：本项目没有测试代码
 
 ## 技术栈
 
-- **前端：**
-  - Vue 3（选项式 API）
-  - TypeScript（TS）
-  - Vite（构建工具）
-  - Pinia（状态管理）
-  - Vue Router（路由管理）
-  - Sass（样式）
-  
-- **工具与依赖：**
-  - **pnpm**：依赖管理工具
-  - **ESLint**：代码质量检查
+- Vue 3（选项式 API，JavaScript）
+- Vite 5（构建工具）
+- Vant 4（移动端组件库，通过 unplugin-vue-components 按需自动导入）
+- Vue Router 4（Hash 模式）
+- Axios（请求封装）
+- Sass（样式）
+- pnpm（依赖管理）、ESLint / Prettier（代码规范）
 
-## 项目运行
+## 快速开始
 
-### 安装依赖
+环境要求：Node.js ≥ 18，包管理器 pnpm（或 npm）。
 
-1. 克隆项目到本地：
-   ```bash
-   git clone <repository_url>
-   ```
+```bash
+# 1. 克隆项目
+git clone https://github.com/YouRen1320/Mobile-terminal-shopping-cart.git
+cd Mobile-terminal-shopping-cart
 
-2. 进入项目目录：
-   ```bash
-   cd <project_directory>
-   ```
+# 2. 安装依赖
+pnpm install
 
-3. 安装依赖：
-   ```bash
-   pnpm install
-   ```
+# 3. 启动开发服务器（默认 http://localhost:5173）
+pnpm dev
 
-### 启动开发环境
+# 4. 生产构建（产物在 dist/）
+pnpm build
+```
 
-1. 启动开发环境：
-   
-   ```bash
-   pnpm dev
-   ```
+> [!NOTE]
+> 仓库内置了 `pnpm-workspace.yaml`，已将 `esbuild` 声明为允许执行安装脚本的依赖。pnpm ≥ 10 默认拦截依赖的构建脚本，若你在自己的环境里遇到 `ERR_PNPM_IGNORED_BUILDS`，可运行 `pnpm approve-builds --all` 或参照该文件配置。
 
-    启动后，项目会在浏览器中自动打开（默认 http://localhost:5173），你可以开始开发或测试。
+## 目录结构
 
-2. 打包项目：
-   
-   ```bash
-   pnpm build
-   ```
+```
+├── public/               # 静态资源（favicon）
+├── src/
+│   ├── assets/           # 全局样式与静态资源
+│   ├── router/           # 路由配置（Hash 模式，含登录守卫标记）
+│   ├── utils/
+│   │   └── http.js       # axios 封装：baseURL 指向本地占位接口，含拦截器
+│   └── views/            # 页面：首页、购物车、我的、设置、朋友、详情、
+│                         #   编辑资料、登录、注册
+├── vite.config.js        # Vite 配置（@ 别名、Vant 按需导入、自动导入）
+└── pnpm-workspace.yaml   # pnpm 构建脚本白名单（esbuild）
+```
 
-    打包后的文件将存储在 dist 目录中，可以将其部署到生产环境中。
+## 与新商城练习的关系
 
-3. 代码检查：
-   
-   ```bash
-   pnpm lint
-   ```
+本项目是最早的移动端购物车练习，缺少后端与状态管理。之后重写的 [shopping_cart_frontEnd](https://github.com/YouRen1320/shopping_cart_frontEnd)（Vue 3 + TypeScript）与 [shopping_cart_afterEnd](https://github.com/YouRen1320/shopping_cart_afterEnd)（配套后端）是更完整的版本，适合作为学习参考的主入口。
 
-    该命令将使用 ESLint 检查代码中的潜在问题。
+## 许可证
 
-#### **注意事项：**
-- 目前项目的 接口 尚未完善，因此登录、注册和头像上传等功能暂时无法正常使用。后续计划使用 Node.js 编写接口来解决这些问题。
-- 商品列表和购物车的逻辑已经实现，但由于缺少后端接口，无法完成与服务器的交互。
-
-## 后续计划
-- **接口开发：**
-  - 计划使用 Node.js 完成后端接口的开发，支持商品数据、用户注册登录、购物车增删改查等功能。
-  - 优化功能：完善用户体验，优化界面和交互效果，确保适配不同设备。
-  - 测试与部署：对项目进行全面测试，确保前后端的无缝对接，部署到生产环境。
+[MIT](./LICENSE)
