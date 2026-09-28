@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+# 自动生成的导入声明（unplugin-auto-import / unplugin-vue-components）
+auto-imports.d.ts
+components.d.ts
